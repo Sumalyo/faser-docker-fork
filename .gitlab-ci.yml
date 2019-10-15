@@ -1,7 +1,22 @@
-imagebuild:
-  before_script:
-    - yum install -y docker
+#imagebuild:
+#  before_script:
+#    - yum install -y docker
+#  script:
+#    - docker build -t smeehan12/faser:latest .
+#    - docker login -u smeehan12 -p Moxze-12
+#    - docker push smeehan12/faser:latest
+
+
+stages:
+  - package
+
+build_image:
+  stage: package
+  variables:
+    TO: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+  tags:
+    - docker-image-build
+  dependencies:
+    - build
   script:
-    - docker build -t smeehan12/faser:latest .
-    - docker login -u smeehan12 -p Moxze-12
-    - docker push smeehan12/faser:latest
+  - echo building image
