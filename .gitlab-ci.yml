@@ -1,12 +1,3 @@
-#imagebuild:
-#  before_script:
-#    - yum install -y docker
-#  script:
-#    - docker build -t smeehan12/faser:latest .
-#    - docker login -u smeehan12 -p Moxze-12
-#    - docker push smeehan12/faser:latest
-
-
 stages:
   - package
 

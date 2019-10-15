@@ -10,5 +10,10 @@ RUN cd /tmp/ && \
 RUN yum install -y libusbx-devel && \
  yum clean all
  
-WORKDIR /root
+ENV HOME /home
+ 
+COPY startup.sh $HOME/startup.sh
+ 
+ENTRYPOINT ["/bin/bash", "/home/startup.sh","/bin/bash"] 
+
 
