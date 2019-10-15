@@ -16,7 +16,5 @@ build_image:
     TO: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
   tags:
     - docker-image-build
-  dependencies:
-    - build
   script:
   - echo building image
