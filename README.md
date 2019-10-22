@@ -3,10 +3,10 @@ This repository compiles docker files and the associated components necessary to
 build docker images for FASER for the online and offline computing.  If you are 
 unfamiliar with docker, we recommend you work through this tutorial - [Link to Tutorial](https://matthewfeickert.github.io/intro-to-docker/).
 
-## Online : []()
+## Online : [docker-daq](./docker-daq)
 For the online daq software.
 
-## Offline : []()
+## Offline : [docker-offline](./docker-offline)
 For the offline [calypso](https://gitlab.cern.ch/faser/calypso) reconstruction 
 and analysis framework.  This is largely based on the [atlas-sit](https://gitlab.cern.ch/atlas-sit/docker/tree/master)
 setup, where there are nice directions and more advanced directions.
