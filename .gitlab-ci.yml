@@ -4,15 +4,16 @@ stages:
 build_daq:
   stage: package
   script:
+    - ls
     - cd faser-daq
     - docker build -t gitlab-registry.cern.ch/meehan/faser-daq:latest .
     - docker push gitlab-registry.cern.ch/meehan/faser-daq:latest
     
-build_offline:
-  stage: package
-  script:
-    - cd faser-offline
-    - docker build -t gitlab-registry.cern.ch/meehan/faser-offline:latest .
-    - docker push gitlab-registry.cern.ch/meehan/faser-offline:latest
+#build_offline:
+#  stage: package
+#  script:
+#    - cd faser-offline
+#    - docker build -t gitlab-registry.cern.ch/meehan/faser-offline:latest .
+#    - docker push gitlab-registry.cern.ch/meehan/faser-offline:latest
   
   
