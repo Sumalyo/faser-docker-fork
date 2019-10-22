@@ -3,6 +3,8 @@ stages:
 
 build_daq:
   stage: package
+  tags:
+    - docker
   script:
     - ls
     - cd docker-faser-daq
@@ -11,6 +13,8 @@ build_daq:
     
 #build_offline:
 #  stage: package
+#  tags:
+#    - docker
 #  script:
 #    - cd docker-faser-offline
 #    - docker build -t gitlab-registry.cern.ch/meehan/docker-faser-offline:latest .
