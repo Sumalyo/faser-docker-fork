@@ -18,7 +18,7 @@ go into the directory you desire to build and execute
 cd daq
 docker build -t repo/name:tag .
 ```
-where `repo/name:tag` will be how the image shows up when you siubsequently execute
+where `repo/name:tag` will be how the image shows up when you subsequently execute
 ```
 docker images
 ```
