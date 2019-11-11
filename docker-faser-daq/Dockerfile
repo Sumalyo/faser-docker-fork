@@ -9,6 +9,9 @@ RUN cd /tmp/ && \
 
 RUN yum install -y libusbx-devel && \
     yum clean all
+    
+RUN yum install -y root && \
+    yum clean all
 
 ENV HOME /home
 
