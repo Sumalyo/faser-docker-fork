@@ -1,23 +1,11 @@
 stages:
   - package
 
-build_daq:
+build_image:
   stage: package
+  variables:
+    TO: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
   tags:
-    - docker
+    - docker-image-build
   script:
-    - ls
-    - cd docker-faser-daq
-    - docker build -t gitlab-registry.cern.ch/meehan/docker-faser-daq:latest .
-    - docker push gitlab-registry.cern.ch/meehan/docker-faser-daq:latest
-    
-#build_offline:
-#  stage: package
-#  tags:
-#    - docker
-#  script:
-#    - cd docker-faser-offline
-#    - docker build -t gitlab-registry.cern.ch/meehan/docker-faser-offline:latest .
-#    - docker push gitlab-registry.cern.ch/meehan/docker-faser-offline:latest
-  
-  
+  - echo building image
