@@ -3,6 +3,8 @@ This repository compiles docker files and the associated components necessary to
 build docker images for FASER for the online and offline computing.  If you are 
 unfamiliar with docker, we recommend you work through this tutorial - [Link to Tutorial](https://matthewfeickert.github.io/intro-to-docker/).
 
+All this repo is doing currently is building the online, from the top level Dockerfile, thoughn both subdirectories are included for (hopefully) future use.
+
 ## Online : [docker-daq](./docker-daq)
 For the online daq software.
 
