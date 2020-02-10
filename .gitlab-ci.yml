@@ -11,6 +11,7 @@ build_image:
   - echo building image
   
 build_sam:
+  image: gitlab-registry.cern.ch/ci-tools/docker-image-builder:latest
   stage: package
   script:
     - docker build -t gitlab-registry.cern.ch/meehan/faser-docker-daq:latest .
