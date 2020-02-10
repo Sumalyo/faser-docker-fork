@@ -1,27 +1,14 @@
+# guidance taken from the IT folks
+#
+# https://gitlab.cern.ch/ci-tools/docker-image-builder#run-a-docker-build-job
+# https://gitlab.cern.ch/gitlabci-examples/build_docker_image/blob/master/.gitlab-ci.yml
+#
+# FixMe : In the future, we should be using kaniko, but Sam Meehan doesn't know what that is
+
 stages:
   - package
 
-#build_image:
-#  stage: package
-#  variables:
-#    TO: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
-#  tags:
-#    - docker-image-build
-#  script:
-#  - echo building image
-  
-# https://gitlab.cern.ch/ci-tools/docker-image-builder#run-a-docker-build-job
-# https://gitlab.cern.ch/gitlabci-examples/build_docker_image/blob/master/.gitlab-ci.yml
 build_daq:
-  image: gitlab-registry.cern.ch/ci-tools/docker-image-builder:latest
-  stage: package
-  script:
-    - docker build -t ${CI_REGISTRY_IMAGE}:latest .
-    - docker push ${CI_REGISTRY_IMAGE}:latest
-
-
-
-build_docker:
   stage: package
   tags: 
   - docker-privileged
@@ -31,19 +18,20 @@ build_docker:
   script:
     - docker info
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build -t $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG .
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+    - docker build -t $CI_REGISTRY_IMAGE/daq:$CI_COMMIT_REF_SLUG ./faser-daq/Dockerfile
+    - docker push $CI_REGISTRY_IMAGE/daq:$CI_COMMIT_REF_SLUG
     
-#build_docker_tag:
-#  stage: package
-#  only: [tags]
-#  tags: 
-#  - docker-privileged
-#  image: docker:19.03.1
-#  services:
-#  - docker:19.03.1-dind
-#  script:
-#    - docker info
-#    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-#    - docker build -t $CI_REGISTRY_IMAGE:${CI_COMMIT_TAG} .
-#    - docker push ${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}
+    
+build_offline:
+  stage: package
+  tags: 
+  - docker-privileged
+  image: docker:19.03.1
+  services:
+  - docker:19.03.1-dind
+  script:
+    - docker info
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE/offline:$CI_COMMIT_REF_SLUG ./faser-offline/Dockerfile
+    - docker push $CI_REGISTRY_IMAGE/offline:$CI_COMMIT_REF_SLUG
+

@@ -13,6 +13,8 @@ For the offline [calypso](https://gitlab.cern.ch/faser/calypso) reconstruction
 and analysis framework.  This is largely based on the [atlas-sit](https://gitlab.cern.ch/atlas-sit/docker/tree/master)
 setup, where there are nice directions and more advanced directions.
 
+**This is in the works since it currectly depends on all of athena and makes an image which is 30 Gb**
+
 # Usage
 These can be built like and docker image.  To build an image on your local machine,
 go into the directory you desire to build and execute
