@@ -1,5 +1,14 @@
-FROM atlas/centos7-atlasos:latest
+FROM gitlab-registry.cern.ch/ep-dt-di/daq/daqling:latest
+ADD . /faser/daq
+WORKDIR /faser/daq
 
+# get boost 1.70.0 from LCG
+COPY *.repo /etc/yum.repos.d/
+RUN yum install -y LCG_96b_Boost_1.70.0_x86_64_centos7_gcc8_opt && \
+    export BOOST_ROOT_DIR=/opt/lcg/Boost/1.70.0-eebf1/x86_64-centos7-gcc8-opt && \
+    export BOOST_VERSION=1.70
+    
+# get an up to date version of Git
 RUN cd /tmp/ && \
     wget https://centos7.iuscommunity.org/ius-release.rpm && \
     rpm -i --nodeps ius-release.rpm && \
@@ -7,9 +16,11 @@ RUN cd /tmp/ && \
     yum install -y git2u && \
     yum clean all
 
+# libusb is for the GPIO boards
 RUN yum install -y libusbx-devel && \
     yum clean all
     
+# root is for the tracker scan routines
 RUN yum install -y root && \
     yum clean all
 
@@ -97,3 +108,7 @@ ENV HOME /home
 COPY startup.sh $HOME/startup.sh
 
 ENTRYPOINT ["/bin/bash", "/home/startup.sh","/bin/bash"]
+    
+
+
+    

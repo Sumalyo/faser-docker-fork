@@ -9,3 +9,9 @@ build_image:
     - docker-image-build
   script:
   - echo building image
+  
+build_sam:
+  - package
+  script:
+    - docker build -t gitlab-registry.cern.ch/meehan/faser-docker-daq:latest .
+    - docker push gitlab-registry.cern.ch/meehan/faser-docker-daq:latest
