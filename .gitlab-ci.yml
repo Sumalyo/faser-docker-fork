@@ -10,6 +10,8 @@ stages:
 #  script:
 #  - echo building image
   
+# https://gitlab.cern.ch/ci-tools/docker-image-builder#run-a-docker-build-job
+# https://gitlab.cern.ch/gitlabci-examples/build_docker_image/blob/master/.gitlab-ci.yml
 build_daq:
   image: gitlab-registry.cern.ch/ci-tools/docker-image-builder:latest
   stage: package
@@ -30,15 +32,25 @@ build_docker:
   stage: package
   tags: 
   - docker-privileged
-  # Use specific version of the official docker client image (as well as the docker-in-docker image) as recommended by
-  # https://about.gitlab.com/2019/07/31/docker-in-docker-with-docker-19-dot-03/
   image: docker:19.03.1
   services:
-  # To obtain a Docker daemon, request a Docker-in-Docker service
   - docker:19.03.1-dind
   script:
     - docker info
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
     - docker build -t $CI_REGISTRY_IMAGE .
     - docker push ${CI_REGISTRY_IMAGE}
-    - docker push ${CI_REGISTRY_IMAGE}:TAGThis
+    
+build_docker_tag:
+  stage: package
+  only: [tags]
+  tags: 
+  - docker-privileged
+  image: docker:19.03.1
+  services:
+  - docker:19.03.1-dind
+  script:
+    - docker info
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t $CI_REGISTRY_IMAGE:${CI_COMMIT_TAG} .
+    - docker push ${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}
