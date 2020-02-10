@@ -18,7 +18,7 @@ build_daq:
   script:
     - docker info
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build -t $CI_REGISTRY_IMAGE/daq:$CI_COMMIT_REF_SLUG ./faser-daq/Dockerfile
+    - docker build -t $CI_REGISTRY_IMAGE/daq:$CI_COMMIT_REF_SLUG ./faser-daq
     - docker push $CI_REGISTRY_IMAGE/daq:$CI_COMMIT_REF_SLUG
     
     
@@ -32,6 +32,6 @@ build_offline:
   script:
     - docker info
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build -t $CI_REGISTRY_IMAGE/offline:$CI_COMMIT_REF_SLUG ./faser-offline/Dockerfile
+    - docker build -t $CI_REGISTRY_IMAGE/offline:$CI_COMMIT_REF_SLUG ./faser-offline
     - docker push $CI_REGISTRY_IMAGE/offline:$CI_COMMIT_REF_SLUG
 
