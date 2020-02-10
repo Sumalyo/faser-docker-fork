@@ -1,18 +1,26 @@
 stages:
   - package
 
-build_image:
-  stage: package
-  variables:
-    TO: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
-  tags:
-    - docker-image-build
-  script:
-  - echo building image
+#build_image:
+#  stage: package
+#  variables:
+#    TO: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+#  tags:
+#    - docker-image-build
+#  script:
+#  - echo building image
   
-build_sam:
+build_daq:
   image: gitlab-registry.cern.ch/ci-tools/docker-image-builder:latest
   stage: package
   script:
-    - docker build -t gitlab-registry.cern.ch/meehan/faser-docker-daq:latest .
-    - docker push gitlab-registry.cern.ch/meehan/faser-docker-daq:latest
+    - docker build -t ${CI_REGISTRY_IMAGE}:latest .
+    - docker push ${CI_REGISTRY_IMAGE}:latest
+
+build_daq_tag:
+  image: gitlab-registry.cern.ch/ci-tools/docker-image-builder:latest
+  stage: package
+  only: [tags]
+  script:
+    - docker build -t ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME} .
+    - docker push ${CI_REGISTRY_IMAGE}:${CI_COMMIT_REF_NAME}
