@@ -21,6 +21,10 @@ RUN cd /tmp/ && \
     yum remove -y git && \
     yum install -y git2u && \
     yum clean all
+    
+# get xrootd for xrdcp
+RUN yum install -y xrootd-client && \
+    yum clean all
 
 # libusb is for the GPIO boards
 RUN yum install -y libusbx-devel && \
