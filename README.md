@@ -49,4 +49,13 @@ which uses the following arguments
 
 But if you are like "I don't get it" I would really encourage you to work through the tutorial linked at the top.
 
+## Authenticating
+Now, remember, if you are on your laptop it knows nothing about your credentials for being able
+to work with the GitLab registry, so you may need to login and authenticate if its your first time.
+This requires something like :
+```
+docker login gitlab-registry.cern.ch
+```
+and then you should enter your normal CERN credentials.
+
 
