@@ -30,6 +30,10 @@ RUN yum install -y xrootd-client && \
 RUN yum install -y libusbx-devel && \
     yum clean all
     
+# python3-devel for the rcgui gevent
+RUN yum install -y python3-devel && \
+    yum clean all
+    
 # ToDo : root is for the tracker scan routines
 #        there were some conflicts here so this is commented out for now
 #        as it is not essential for faser/DAQ operation
