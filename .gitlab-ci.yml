@@ -22,16 +22,16 @@ build_daq:
     - docker push $CI_REGISTRY_IMAGE/daq:$CI_COMMIT_REF_SLUG
     
     
-build_offline:
-  stage: package
-  tags: 
-  - docker-privileged
-  image: docker:19.03.1
-  services:
-  - docker:19.03.1-dind
-  script:
-    - docker info
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build -t $CI_REGISTRY_IMAGE/offline:$CI_COMMIT_REF_SLUG ./faser-offline
-    - docker push $CI_REGISTRY_IMAGE/offline:$CI_COMMIT_REF_SLUG
-
+#build_offline:
+#  stage: package
+#  tags: 
+#  - docker-privileged
+#  image: docker:19.03.1
+#  services:
+#  - docker:19.03.1-dind
+#  script:
+#    - docker info
+#    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+#    - docker build -t $CI_REGISTRY_IMAGE/offline:$CI_COMMIT_REF_SLUG ./faser-offline
+#    - docker push $CI_REGISTRY_IMAGE/offline:$CI_COMMIT_REF_SLUG
+# 
