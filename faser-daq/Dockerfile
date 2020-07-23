@@ -15,12 +15,12 @@ RUN yum install -y LCG_96b_Boost_1.70.0_x86_64_centos7_gcc8_opt && \
     export BOOST_VERSION=1.70
     
 # get an up to date version of Git
-RUN cd /tmp/ && \
-    wget https://centos7.iuscommunity.org/ius-release.rpm && \
-    rpm -i --nodeps ius-release.rpm && \
-    yum remove -y git && \
-    yum install -y git2u && \
-    yum clean all
+#RUN cd /tmp/ && \
+#    wget https://centos7.iuscommunity.org/ius-release.rpm && \
+#    rpm -i --nodeps ius-release.rpm && \
+#    yum remove -y git && \
+#    yum install -y git2u && \
+#    yum clean all
     
 # get xrootd for xrdcp
 RUN yum install -y xrootd-client && \
