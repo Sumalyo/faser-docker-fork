@@ -33,6 +33,10 @@ RUN yum install -y libusbx-devel && \
 # python3-devel for the rcgui gevent
 RUN yum install -y python3-devel && \
     yum clean all
+
+# for creation of LUT
+RUN yum install -y muParser && \
+    yum clean all
     
 # ToDo : root is for the tracker scan routines
 #        there were some conflicts here so this is commented out for now
