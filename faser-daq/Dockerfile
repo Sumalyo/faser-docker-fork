@@ -1,19 +1,13 @@
 # start from the base daqling repository
 # https://gitlab.cern.ch/ep-dt-di/daq/daqling/blob/develop/etc/Dockerfile
 
-FROM gitlab-registry.cern.ch/ep-dt-di/daq/daqling:latest
+FROM gitlab-registry.cern.ch/ep-dt-di/daq/daqling:cibase
 
 # put all of the code within the /faser/daq directory in the image
 ADD . /faser/daq
 WORKDIR /faser/daq
 
-
-# get boost 1.70.0 from LCG
-COPY *.repo /etc/yum.repos.d/
-RUN yum install -y LCG_96b_Boost_1.70.0_x86_64_centos7_gcc8_opt && \
-    export BOOST_ROOT_DIR=/opt/lcg/Boost/1.70.0-eebf1/x86_64-centos7-gcc8-opt && \
-    export BOOST_VERSION=1.70
-    
+ 
 # get an up to date version of Git
 #RUN cd /tmp/ && \
 #    wget https://centos7.iuscommunity.org/ius-release.rpm && \
