@@ -43,7 +43,7 @@ docker pull gitlab-registry.cern.ch/faser/docker/daq:master
 ```
 and then boot this up on your computer
 ```
-docker run --rm -it -v $PWD:$PWD gitlab-registry.cern.ch/faser/docker/daq:master
+docker run --name faser_box --rm -p 9001:9001 -p 5000:5000 -it -v $PWD:$PWD gitlab-registry.cern.ch/faser/docker/daq:master
 ```
 which uses the following arguments
   - `--rm` : When you exit the container, it will not persist.  This keeps the memory footprint of Docker down.
@@ -51,6 +51,18 @@ which uses the following arguments
   - `-v $PWD:$PWD` : This is volume mounting the current working directory within the image.  So if you are on `/Users/meehan/work/FASER` on your computer, then in the image, this same path (and all of the stuff contained within it) will be available within the image.  You can read and write to it and it will modify the files on your laptop.
 
 But if you are like "I don't get it" I would really encourage you to work through the tutorial linked at the top.
+
+### __Running faser-daq from Docker__
+__Open a shell in the container__
+```
+docker exec -it faser_box /bin/bash
+```
+__Prepare the spack environment__
+```
+cd </path/to/faser-daq>
+daqling/cmake/install.sh -d /daqling-spack-repo -c configs/ -a
+source setup.sh <path/to/soack_repo>
+```
 
 ## Authenticating
 Now, remember, if you are on your laptop it knows nothing about your credentials for being able

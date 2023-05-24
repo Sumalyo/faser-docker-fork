@@ -15,17 +15,28 @@ WORKDIR /faser/daq
 #    yum remove -y git && \
 #    yum install -y git2u && \
 #    yum clean all
-    
+# python3-devel for the rcgui gevent
+RUN yum install -y python3-devel && \
+    yum clean all
+
+# RUN yum --enablerepo=centos-sclo-rh -y install rh-python38 && \
+#     yum clean all
+
+#RUN scl enable rh-python38 bash
+
+#RUN scl enable rh-python38 bash
+
+ADD configs/requirements.txt /faser/daq
+
+RUN python3 -m pip install --upgrade pip
+
+RUN python3 -m pip install -r requirements.txt
 # get xrootd for xrdcp
 RUN yum install -y xrootd-client && \
     yum clean all
 
 # libusb is for the GPIO boards
 RUN yum install -y libusbx-devel && \
-    yum clean all
-    
-# python3-devel for the rcgui gevent
-RUN yum install -y python3-devel && \
     yum clean all
 
 # for creation of LUT
@@ -121,8 +132,43 @@ ENV HOME /home
 
 COPY startup.sh $HOME/startup.sh
 
+RUN yum -y install eigen3-devel && \
+    yum clean all
+
+RUN yum -y install redis && \
+    yum clean all
+
+# RUN yum -y install https://dl.influxdata.com/influxdb/releases/influxdb-1.7.6.x86_64.rpm && \
+#     yum clean all
+
+# RUN pip3 install supervisor
+
+# RUN pip3 install supervisor_twiddler
+
+#configs is a folder that I have created in the repo that conatains files to configure supervisor and also fix python imports
+
+USER 0
+
+RUN mkdir /var/log/supervisor
+
+RUN mkdir /log
+
+RUN mkdir $HOME/data
+
+RUN mkdir /etc/supervisor
+
+RUN mkdir /etc/supervisor/conf.d
+
+ADD configs/supervisord.conf /etc/supervisor/
+
+ADD configs/inet_http_server.conf /etc/supervisor/conf.d/
+
+ADD configs/twiddler.conf /etc/supervisor/conf.d/
+
+ADD configs/redis.conf /etc/
+
+#CMD ["/usr/local/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+
+EXPOSE 22 80 9001 5000
+
 ENTRYPOINT ["/bin/bash", "/home/startup.sh","/bin/bash"]
-    
-
-
-    
