@@ -46,7 +46,9 @@ and then boot this up on your computer
 docker run --name faser_box --rm -p 9001:9001 -p 5000:5000 -it -v $PWD:$PWD gitlab-registry.cern.ch/faser/docker/daq:master
 ```
 which uses the following arguments
+  - `--name faser_box` : Assigns a name to the container
   - `--rm` : When you exit the container, it will not persist.  This keeps the memory footprint of Docker down.
+  - `-p 9001:9001 -p 5000:5000` : This maps ports from the container to the host. Required to view the GUI and supervisor from the browser at host. _This can be omitted for CI/CD testing._
   - `-it` : Two arguments that make it the docker session interactive, otherwise it will jump in and out.
   - `-v $PWD:$PWD` : This is volume mounting the current working directory within the image.  So if you are on `/Users/meehan/work/FASER` on your computer, then in the image, this same path (and all of the stuff contained within it) will be available within the image.  You can read and write to it and it will modify the files on your laptop.
 
