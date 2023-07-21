@@ -26,7 +26,7 @@ RUN yum install -y python3-devel && \
 
 #RUN scl enable rh-python38 bash
 
-ADD https://raw.githubusercontent.com/Sumalyo/faser-docker-fork/master/faser-daq/configs/requirements.txt /faser/daq
+ADD https://raw.githubusercontent.com/Sumalyo/faser-docker-fork/dev/requirements.txt /faser/daq
 
 RUN python3 -m pip install --upgrade pip
 
