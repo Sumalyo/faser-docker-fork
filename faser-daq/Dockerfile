@@ -169,7 +169,9 @@ RUN sed -i 's/\[group:xyz\]/[group:abc]/' /etc/supervisor/conf.d/twiddler.conf
 
 ADD https://gitlab.cern.ch/ep-dt-di/daq/daqling/-/raw/master/ansible/roles/redis/files/redis.conf /etc/
 
-RUN sed -i 's/\(moody-incl arch=linux-None-x86_64\)/\1, zstd arch=linux-centos7-x86_64, googletest arch=linux-centos7-x86_64, lz4@1.9.2 arch=linux-centos7-x86_64, brotli arch=linux-centos7-x86_64/' /daqling-spack-repo/spack/var/spack/environments/daqling/spack.yaml
+RUN sed 's/spack install nlohmann-json@3.6.1 ${ARCH} cppzmq@4.3.0 ${ARCH} xmlrpc-c@1.51.06 ${ARCH} boost@1.70.0 ${ARCH} cpr ${ARCH} ers ${ARCH} folly-incl ${ARCH} moody-incl ${ARCH}$/& zstd ${ARCH} googletest ${ARCH} lz4@1.9.2 ${ARCH} brotli ${ARCH}/' /daqling-spack-repo/Install.sh
+RUN source /daqling-spack-repo/Install.sh
+#Add dependency and Install packages
 
 #CMD ["/usr/local/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
 
