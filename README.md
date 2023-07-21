@@ -24,8 +24,8 @@ setup, where there are nice directions and more advanced directions.
 These can be built like and docker image.  To build an image on your local machine,
 go into the directory you desire to build and execute
 ```
-cd daq
-docker build -t repo/name:tag .
+cd faser-daq
+docker build . -t repo/name:tag .
 ```
 where `repo/name:tag` will be how the image shows up when you subsequently execute
 ```

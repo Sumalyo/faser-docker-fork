@@ -26,7 +26,7 @@ RUN yum install -y python3-devel && \
 
 #RUN scl enable rh-python38 bash
 
-ADD configs/requirements.txt /faser/daq
+ADD https://raw.githubusercontent.com/Sumalyo/faser-docker-fork/master/faser-daq/configs/requirements.txt /faser/daq
 
 RUN python3 -m pip install --upgrade pip
 
@@ -159,13 +159,17 @@ RUN mkdir /etc/supervisor
 
 RUN mkdir /etc/supervisor/conf.d
 
-ADD configs/supervisord.conf /etc/supervisor/
+ADD https://gitlab.cern.ch/ep-dt-di/daq/daqling/-/blob/master/ansible/roles/supervisor/files/supervisord.conf /etc/supervisor/
 
-ADD configs/inet_http_server.conf /etc/supervisor/conf.d/
+ADD https://gitlab.cern.ch/ep-dt-di/daq/daqling/-/raw/master/ansible/roles/supervisor/files/inet_http_server.conf /etc/supervisor/conf.d/
 
-ADD configs/twiddler.conf /etc/supervisor/conf.d/
+ADD https://gitlab.cern.ch/ep-dt-di/daq/daqling/-/raw/master/ansible/roles/supervisor-twiddler/files/twiddler.conf /etc/supervisor/conf.d/
+RUN sed -i 's/\[group:xyz\]/[group:abc]/' /etc/supervisor/conf.d/twiddler.conf
+# to be edited to run faser group
 
-ADD configs/redis.conf /etc/
+ADD https://gitlab.cern.ch/ep-dt-di/daq/daqling/-/raw/master/ansible/roles/redis/files/redis.conf /etc/
+
+RUN sed -i 's/\(moody-incl arch=linux-None-x86_64\)/\1, zstd arch=linux-centos7-x86_64, googletest arch=linux-centos7-x86_64, lz4@1.9.2 arch=linux-centos7-x86_64, brotli arch=linux-centos7-x86_64/' /daqling-spack-repo/spack/var/spack/environments/daqling/spack.yaml
 
 #CMD ["/usr/local/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
 
