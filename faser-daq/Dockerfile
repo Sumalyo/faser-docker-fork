@@ -27,6 +27,7 @@ RUN yum install -y python3-devel && \
 #RUN scl enable rh-python38 bash
 
 ADD https://raw.githubusercontent.com/Sumalyo/faser-docker-fork/dev/requirements.txt /faser/daq
+#to be replaced with a requirements file from faser repo once it is ready
 
 RUN python3 -m pip install --upgrade pip
 
@@ -159,19 +160,19 @@ RUN mkdir /etc/supervisor
 
 RUN mkdir /etc/supervisor/conf.d
 
-ADD https://gitlab.cern.ch/ep-dt-di/daq/daqling/-/blob/master/ansible/roles/supervisor/files/supervisord.conf /etc/supervisor/
+ADD https://gitlab.cern.ch/ep-dt-di/daq/daqling/-/raw/master/ansible/roles/supervisor/files/supervisord.conf /etc/supervisor/
 
 ADD https://gitlab.cern.ch/ep-dt-di/daq/daqling/-/raw/master/ansible/roles/supervisor/files/inet_http_server.conf /etc/supervisor/conf.d/
 
 ADD https://gitlab.cern.ch/ep-dt-di/daq/daqling/-/raw/master/ansible/roles/supervisor-twiddler/files/twiddler.conf /etc/supervisor/conf.d/
-RUN sed -i 's/\[group:xyz\]/[group:abc]/' /etc/supervisor/conf.d/twiddler.conf
+RUN sed -i 's/\[group:daq\]/[group:faser]/' /etc/supervisor/conf.d/twiddler.conf
 # to be edited to run faser group
 
 ADD https://gitlab.cern.ch/ep-dt-di/daq/daqling/-/raw/master/ansible/roles/redis/files/redis.conf /etc/
 
-RUN sed 's/spack install nlohmann-json@3.6.1 ${ARCH} cppzmq@4.3.0 ${ARCH} xmlrpc-c@1.51.06 ${ARCH} boost@1.70.0 ${ARCH} cpr ${ARCH} ers ${ARCH} folly-incl ${ARCH} moody-incl ${ARCH}$/& zstd ${ARCH} googletest ${ARCH} lz4@1.9.2 ${ARCH} brotli ${ARCH}/' /daqling-spack-repo/Install.sh
-RUN source /daqling-spack-repo/Install.sh
-#Add dependency and Install packages
+#RUN sed -i 's/\(moody-incl arch=linux-None-x86_64\)/\1, zstd arch=linux-centos7-x86_64, googletest arch=linux-centos7-x86_64, lz4@1.9.2 arch=linux-centos7-x86_64, brotli arch=linux-centos7-x86_64/' /daqling-spack-repo/spack/var/spack/environments/daqling/spack.yaml
+
+#RUN . /daqling-spack-repo/spack/share/spack/setup-env.sh ; spack env activate daqling ; spack find; spack install
 
 #CMD ["/usr/local/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
 
