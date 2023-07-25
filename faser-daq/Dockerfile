@@ -170,11 +170,11 @@ RUN sed -i 's/\[group:daq\]/[group:faser]/' /etc/supervisor/conf.d/twiddler.conf
 
 ADD https://gitlab.cern.ch/ep-dt-di/daq/daqling/-/raw/master/ansible/roles/redis/files/redis.conf /etc/
 
-#RUN sed -i 's/\(moody-incl arch=linux-None-x86_64\)/\1, zstd arch=linux-centos7-x86_64, googletest arch=linux-centos7-x86_64, lz4@1.9.2 arch=linux-centos7-x86_64, brotli arch=linux-centos7-x86_64/' /daqling-spack-repo/spack/var/spack/environments/daqling/spack.yaml
-
-#RUN . /daqling-spack-repo/spack/share/spack/setup-env.sh ; spack env activate daqling ; spack find; spack install
-
-#CMD ["/usr/local/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+WORKDIR /daqling-spack-repo
+RUN rm -r spack/
+RUN git clone -b v0.16.3 --single-branch https://github.com/spack/spack.git
+RUN sed -i 's/spack install nlohmann-json@3.6.1 ${ARCH} cppzmq@4.3.0 ${ARCH} xmlrpc-c@1.51.06 ${ARCH} boost@1.70.0 ${ARCH} cpr ${ARCH} ers ${ARCH} folly-incl ${ARCH} moody-incl ${ARCH}$/& googletest ${ARCH} lz4@1.9.2 ${ARCH} brotli ${ARCH}/' /daqling-spack-repo/Install.sh
+RUN ./Install.sh
 
 EXPOSE 22 80 9001 5000
 
