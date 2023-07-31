@@ -173,7 +173,7 @@ ADD https://gitlab.cern.ch/ep-dt-di/daq/daqling/-/raw/master/ansible/roles/redis
 WORKDIR /daqling-spack-repo
 RUN rm -r spack/
 RUN git clone -b v0.16.3 --single-branch https://github.com/spack/spack.git
-RUN sed -i 's/spack install nlohmann-json@3.6.1 ${ARCH} cppzmq@4.3.0 ${ARCH} xmlrpc-c@1.51.06 ${ARCH} boost@1.70.0 ${ARCH} cpr ${ARCH} ers ${ARCH} folly-incl ${ARCH} moody-incl ${ARCH}$/& zstd ${ARCH} googletest ${ARCH} lz4@1.9.2 ${ARCH} brotli ${ARCH}/' /daqling-spack-repo/Install.sh
+RUN sed -i '/^if \[ \?\$/i spack install zstd ${ARCH} googletest ${ARCH} lz4@1.9.2 ${ARCH} brotli ${ARCH}\n' /daqling-spack-repo/Install.sh
 RUN ./Install.sh
 
 EXPOSE 22 80 9001 5000
