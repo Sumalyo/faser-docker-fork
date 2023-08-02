@@ -173,7 +173,7 @@ ADD https://gitlab.cern.ch/ep-dt-di/daq/daqling/-/raw/master/ansible/roles/redis
 WORKDIR /daqling-spack-repo
 RUN rm -r spack/
 RUN git clone -b v0.16.3 --single-branch https://github.com/spack/spack.git
-RUN sed -i '/^if \[ \?\$/i spack install zstd ${ARCH} googletest ${ARCH} lz4@1.9.2 ${ARCH} brotli ${ARCH}\n' /daqling-spack-repo/Install.sh
+RUN sed -i -E 's/if \[ \$\? -eq 0 \]/spack install zstd \${ARCH} googletest \${ARCH} lz4@1.9.2 \${ARCH} brotli \${ARCH}\nif [ \$? -eq 0 ]/gm;t' /daqling-spack-repo/Install.sh
 RUN ./Install.sh
 
 EXPOSE 22 80 9001 5000
