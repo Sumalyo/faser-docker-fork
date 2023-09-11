@@ -32,7 +32,9 @@ ADD https://raw.githubusercontent.com/Sumalyo/faser-docker-fork/dev/requirements
 RUN python3 -m pip install --upgrade pip
 
 RUN python3 -m pip install -r requirements.txt
-# get xrootd for xrdcp
+
+RUN source /daqling-spack-repo/spack/share/spack/setup-env.sh && spack env activate daqling && spack load curl && spack add zstd brotli lz4 googletest && spack install
+
 RUN yum install -y xrootd-client && \
     yum clean all
 
@@ -139,15 +141,6 @@ RUN yum -y install eigen3-devel && \
 RUN yum -y install redis && \
     yum clean all
 
-# RUN yum -y install https://dl.influxdata.com/influxdb/releases/influxdb-1.7.6.x86_64.rpm && \
-#     yum clean all
-
-# RUN pip3 install supervisor
-
-# RUN pip3 install supervisor_twiddler
-
-#configs is a folder that I have created in the repo that conatains files to configure supervisor and also fix python imports
-
 USER 0
 
 RUN mkdir /var/log/supervisor
@@ -169,12 +162,6 @@ RUN sed -i 's/\[group:daq\]/[group:faser]/' /etc/supervisor/conf.d/twiddler.conf
 # to be edited to run faser group
 
 ADD https://gitlab.cern.ch/ep-dt-di/daq/daqling/-/raw/master/ansible/roles/redis/files/redis.conf /etc/
-
-WORKDIR /daqling-spack-repo
-RUN rm -r spack/
-RUN git clone -b v0.16.3 --single-branch https://github.com/spack/spack.git
-RUN sed -i -E 's/if \[ \$\? -eq 0 \]/spack install zstd \${ARCH} googletest \${ARCH} lz4@1.9.2 \${ARCH} brotli \${ARCH}\nif [ \$? -eq 0 ]/gm;t' /daqling-spack-repo/Install.sh
-RUN ./Install.sh
 
 EXPOSE 22 80 9001 5000
 
